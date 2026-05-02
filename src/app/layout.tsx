@@ -3,6 +3,7 @@ import { Inter, Manrope } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { DotGridCanvas } from "@/components/DotGridCanvas";
 import { ScrollProgress } from "@/components/ScrollProgress";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -39,7 +40,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
         {/* Prevent flash of wrong theme */}
-        <script
+        <Script
+          id="theme-initializer"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `try{const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("dark",t==="dark")}catch(e){}`,
           }}

@@ -27,7 +27,7 @@ function useParallax(speed: number) {
   return { ref, y };
 }
 
-export function HeroSection() {
+export function HeroSection({ isReady = true }: { isReady?: boolean }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const content = useParallax(0.05);
   const floatWin1 = useParallax(-0.15);
@@ -46,6 +46,8 @@ export function HeroSection() {
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
+    if (!isReady) return;
+
     const currentPhrase = phrases[phraseIndex];
     const typingSpeed = isDeleting ? 40 : 100;
     const delay = typedText === currentPhrase && !isDeleting
@@ -66,7 +68,7 @@ export function HeroSection() {
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [typedText, isDeleting, phraseIndex]);
+  }, [typedText, isDeleting, phraseIndex, isReady]);
 
   useEffect(() => {
     const el = sectionRef.current;

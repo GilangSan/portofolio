@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
 import { AboutSection } from "@/components/AboutSection";
@@ -6,16 +9,22 @@ import { WorkSection } from "@/components/WorkSection";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 import { ScrollDownButton } from "@/components/ScrollDownButton";
+import { LoadingScreen } from "@/components/LoadingScreen";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
-    <main className="relative w-full">
-      <Navbar />
+    <>
+      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      
+      <main className={`relative w-full transition-opacity duration-1000 ${isLoading ? "opacity-0" : "opacity-100"}`}>
+        <Navbar />
 
       {/* Hero — full screen */}
       <section className="min-h-screen flex flex-col pt-16">
         <div className="flex-1 flex flex-col w-full max-w-[1440px] mx-auto px-4 sm:px-8 md:px-12 justify-center py-12">
-          <HeroSection />
+          <HeroSection isReady={!isLoading} />
         </div>
         <ScrollDownButton target="#about" />
       </section>
@@ -48,5 +57,6 @@ export default function Home() {
 
       <Footer />
     </main>
+    </>
   );
 }
